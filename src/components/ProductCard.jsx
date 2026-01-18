@@ -2,40 +2,67 @@
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { motion } from 'framer-motion';
+import { FaEye, FaShoppingCart, FaStar } from 'react-icons/fa';
 
 export default function ProductCard({ item }) {
   const { addToCart } = useCart();
 
   return (
     <motion.div 
-      whileHover={{ y: -5 }}
-      className="card bg-base-100 w-full shadow-xl border border-base-200 hover:border-primary transition-all duration-300"
+      whileHover={{ y: -8 }}
+      className="card bg-base-100 w-full shadow-lg hover:shadow-2xl border border-transparent hover:border-primary/20 transition-all duration-300 group"
     >
-      <figure className="h-64 bg-white p-6 relative overflow-hidden group">
+      {/* --- IMAGE AREA --- */}
+      <figure className="h-64 bg-white relative overflow-hidden">
         <img 
           src={item.imageUrl || "https://placehold.co/400"} 
           alt={item.name} 
-          className="object-contain h-full w-full group-hover:scale-110 transition-transform duration-500" 
+          className="object-contain w-full h-full p-6 transition-all duration-500 group-hover:scale-110 group-hover:blur-sm" 
         />
-        {/* Quick Add Overlay */}
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-           <button 
-             onClick={() => addToCart(item)}
-             className="btn btn-primary btn-sm"
-           >
-             Quick Add
-           </button>
+        
+        {/* Hover Overlay */}
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3">
+             <Link href={`/items/${item._id}`} className="btn btn-wide btn-primary btn-sm gap-2">
+                <FaEye /> View Details
+             </Link>
+             <button onClick={() => addToCart(item)} className="btn btn-wide btn-outline btn-white text-white btn-sm gap-2">
+                <FaShoppingCart /> Quick Add
+             </button>
+        </div>
+
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex gap-2">
+             <div className="badge badge-primary font-medium shadow-sm">{item.category || 'Tech'}</div>
+             {item.stock < 5 && <div className="badge badge-error text-white shadow-sm">Low Stock</div>}
         </div>
       </figure>
+
+      {/* --- CONTENT AREA --- */}
       <div className="card-body p-5">
-        <div className="flex justify-between items-start">
-            <h2 className="card-title text-lg">{item.name}</h2>
-            <div className="badge badge-secondary font-bold">${item.price}</div>
+        <div className="flex justify-between items-start mb-1">
+            <div className="text-xs uppercase font-bold text-base-content/50 tracking-wider">{item.brand || 'Generic'}</div>
+            <div className="flex items-center text-yellow-500 text-xs gap-1">
+                <FaStar /> {item.rating || 4.5}
+            </div>
         </div>
-        <p className="text-sm text-base-content/70 line-clamp-2">{item.description}</p>
-        <div className="card-actions justify-end mt-4">
-          <Link href={`/items/${item._id}`} className="btn btn-outline btn-sm btn-primary">Details</Link>
-          <button onClick={() => addToCart(item)} className="btn btn-sm btn-primary">Add to Cart</button>
+
+        <h2 className="card-title text-lg font-bold line-clamp-1 group-hover:text-primary transition-colors">
+            {item.name}
+        </h2>
+        
+        <p className="text-sm text-base-content/70 line-clamp-2 min-h-[2.5rem]">
+            {item.description}
+        </p>
+
+        <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200">
+          <div className="text-xl font-black text-primary">${item.price}</div>
+          <button 
+            onClick={() => addToCart(item)} 
+            className="btn btn-circle btn-ghost hover:bg-primary hover:text-white transition-colors"
+            title="Add to Cart"
+          >
+            <FaShoppingCart />
+          </button>
         </div>
       </div>
     </motion.div>

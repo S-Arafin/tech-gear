@@ -6,17 +6,20 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Load cart from localStorage
+  // Prevent Hydration Error
   useEffect(() => {
+    setIsMounted(true);
     const saved = localStorage.getItem('cart');
     if (saved) setCart(JSON.parse(saved));
   }, []);
 
-  // Save cart to localStorage
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    if (isMounted) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }, [cart, isMounted]);
 
   const addToCart = (product) => {
     setCart((prev) => {
@@ -28,17 +31,44 @@ export function CartProvider({ children }) {
       }
       return [...prev, { ...product, qty: 1 }];
     });
-    setIsCartOpen(true); // Open cart when adding
+    setIsCartOpen(true); 
   };
 
   const removeFromCart = (id) => {
     setCart((prev) => prev.filter((item) => item._id !== id));
   };
 
+  const updateQuantity = (id, delta) => {
+    setCart((prev) => 
+      prev.map((item) => {
+        if (item._id === id) {
+          const newQty = item.qty + delta;
+          return newQty > 0 ? { ...item, qty: newQty } : item;
+        }
+        return item;
+      })
+    );
+  };
+
+  const clearCart = () => setCart([]);
   const toggleCart = () => setIsCartOpen(!isCartOpen);
+  
+  // Derived state
+  const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
+  const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, isCartOpen, toggleCart }}>
+    <CartContext.Provider value={{ 
+      cart, 
+      addToCart, 
+      removeFromCart, 
+      updateQuantity, 
+      clearCart,
+      isCartOpen, 
+      toggleCart,
+      cartCount,
+      cartTotal
+    }}>
       {children}
     </CartContext.Provider>
   );
