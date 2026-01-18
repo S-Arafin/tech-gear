@@ -21,9 +21,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    // 1. Add data-theme here
-    <html lang="en" data-theme="tech-gear"> 
-     <body className="...">
+    <html lang="en" data-theme="tech-gear" suppressHydrationWarning={true}> 
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning={true} // And here
+      >
         <CartProvider>
           <Navbar />
           {children}

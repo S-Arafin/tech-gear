@@ -1,35 +1,199 @@
-export default function Footer() {
+'use client';
+
+import React from "react";
+import Link from "next/link";
+import { FaFacebook, FaLinkedinIn, FaGithub } from "react-icons/fa6";
+import {
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaMicrochip,
+  FaCode,
+  FaHeart,
+  FaArrowUp,
+  FaShieldAlt
+} from "react-icons/fa";
+import { motion } from "framer-motion";
+
+const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="footer p-10 bg-black text-neutral-content">
-      <aside>
-        <h3 className="text-3xl font-black text-primary tracking-tighter">TechGear</h3>
-        <p className="max-w-xs text-gray-400 mt-2">
-          The world's premier destination for high-performance hardware and gaming peripherals.
-          <br />
-          <br />
-          © 2026 TechGear Industries
-        </p>
-      </aside> 
-      <nav>
-        <h6 className="footer-title text-white">Shop</h6> 
-        <a className="link link-hover text-gray-400">Processors</a>
-        <a className="link link-hover text-gray-400">Graphics Cards</a>
-        <a className="link link-hover text-gray-400">Peripherals</a>
-        <a className="link link-hover text-gray-400">Accessories</a>
-      </nav> 
-      <nav>
-        <h6 className="footer-title text-white">Support</h6> 
-        <a className="link link-hover text-gray-400">Contact Us</a>
-        <a className="link link-hover text-gray-400">FAQs</a>
-        <a className="link link-hover text-gray-400">Shipping Policy</a>
-        <a className="link link-hover text-gray-400">Returns</a>
-      </nav> 
-      <nav>
-        <h6 className="footer-title text-white">Social</h6> 
-        <a className="link link-hover text-gray-400">Twitter</a>
-        <a className="link link-hover text-gray-400">Instagram</a>
-        <a className="link link-hover text-gray-400">YouTube</a>
-      </nav>
+    <footer className="relative bg-base-200 text-base-content border-t border-base-300 overflow-hidden font-sans">
+      
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-20%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/5 rounded-full blur-[80px] md:blur-[120px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-secondary/5 rounded-full blur-[80px] md:blur-[120px]" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10 pt-16 md:pt-20 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+          
+          <div className="space-y-6">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-content shadow-lg">
+                <FaMicrochip size={20} />
+              </div>
+              <h1 className="text-2xl font-black tracking-tighter uppercase">
+                Tech
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                  Gear
+                </span>
+              </h1>
+            </div>
+            <p className="text-sm opacity-70 leading-relaxed font-medium max-w-xs">
+              The ultimate destination for PC enthusiasts. We provide high-performance hardware, next-gen peripherals, and custom build solutions.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-black mb-6 uppercase tracking-widest text-xs border-b border-base-content/10 pb-2 w-fit text-primary">
+              Shop & Explore
+            </h2>
+            <ul className="space-y-3 text-sm font-medium">
+              {[
+                { to: "/", label: "Home" },
+                { to: "/items", label: "Full Catalog" },
+                { to: "/cart", label: "My Cart" },
+                { to: "/login", label: "Admin Access" },
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={link.to}
+                    className="opacity-70 hover:opacity-100 hover:text-primary hover:pl-2 transition-all duration-300 inline-block"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="font-black mb-6 uppercase tracking-widest text-xs border-b border-base-content/10 pb-2 w-fit text-primary">
+              The Developer
+            </h2>
+
+            <div className="p-4 rounded-2xl bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition-all group">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="avatar">
+                  <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <img
+                      src="https://github.com/S-Arafin.png"
+                      alt="Sultanul Arafin"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <p className="font-bold text-sm group-hover:text-primary transition-colors">
+                    Sultanul Arafin
+                  </p>
+                  <p className="text-[10px] uppercase font-bold opacity-50 tracking-wider">
+                    Full-Stack Dev
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-2 border-t border-base-200 justify-between">
+                <a
+                  href="https://www.facebook.com/profile.php?id=61577959433561"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-xs btn-circle btn-ghost hover:bg-base-200 hover:text-[#1877F2]"
+                >
+                  <FaFacebook size={14} />
+                </a>
+                <a
+                  href="https://github.com/S-Arafin"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-xs btn-circle btn-ghost hover:bg-base-200 hover:text-base-content"
+                >
+                  <FaGithub size={14} />
+                </a>
+                <a
+                  href="https://linkedin.com/in/sultanul-arafin"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-xs btn-circle btn-ghost hover:bg-base-200 hover:text-[#0A66C2]"
+                >
+                  <FaLinkedinIn size={14} />
+                </a>
+                <a
+                  href="mailto:arafin23103@gmail.com"
+                  className="btn btn-xs btn-circle btn-ghost hover:bg-base-200 hover:text-red-500"
+                >
+                  <FaEnvelope size={14} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="font-black mb-6 uppercase tracking-widest text-xs border-b border-base-content/10 pb-2 w-fit text-primary">
+              Customer Care
+            </h2>
+            <ul className="space-y-4 text-sm font-medium">
+              <li className="flex items-start gap-4 opacity-70 hover:opacity-100 transition-opacity">
+                <div className="p-2 bg-primary/10 rounded-lg text-primary mt-[-2px]">
+                  <FaShieldAlt size={14} />
+                </div>
+                <span>2-Year Warranty Included</span>
+              </li>
+              <li className="flex items-start gap-4 opacity-70 hover:opacity-100 transition-opacity">
+                <div className="p-2 bg-secondary/10 rounded-lg text-secondary mt-[-2px]">
+                  <FaPhoneAlt size={14} />
+                </div>
+                <span>+8801979817736</span>
+              </li>
+              <li className="flex items-start gap-4 opacity-70 hover:opacity-100 transition-opacity">
+                <div className="p-2 bg-accent/10 rounded-lg text-accent mt-[-2px]">
+                  <FaMapMarkerAlt size={14} />
+                </div>
+                <span className="break-words">Dhaka, Bangladesh</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="relative z-10 border-t border-base-300 bg-base-300/30">
+        <div className="container mx-auto px-6 py-6 flex flex-col-reverse md:flex-row justify-between items-center gap-4">
+          <p className="text-[10px] font-bold uppercase tracking-widest opacity-50 text-center md:text-left">
+            © {new Date().getFullYear()} TechGear. All rights reserved.
+          </p>
+
+          <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest opacity-60">
+            <div className="flex items-center gap-2 hover:opacity-100 transition-opacity cursor-default">
+              <FaCode className="text-primary" />
+              <span>Next.js 16 + MongoDB</span>
+            </div>
+            <div className="flex items-center gap-2 hover:opacity-100 transition-opacity cursor-default">
+              <FaHeart className="text-red-500" />
+              <span>Built with Passion</span>
+            </div>
+          </div>
+
+          <motion.button
+            onClick={scrollToTop}
+            whileHover={{ y: -5 }}
+            whileTap={{ scale: 0.9 }}
+            className="btn btn-circle btn-primary text-primary-content border-none shadow-lg relative group overflow-hidden"
+            aria-label="Back to Top"
+          >
+            <motion.div
+              animate={{ y: [0, -4, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            >
+              <FaArrowUp size={20} />
+            </motion.div>
+          </motion.button>
+        </div>
+      </div>
     </footer>
   );
-}
+};
+
+export default Footer;

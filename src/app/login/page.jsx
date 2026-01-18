@@ -3,12 +3,12 @@ import { useState, useEffect, Suspense } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaLock, FaArrowRight, FaExclamationCircle } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaArrowRight, FaUserSecret } from 'react-icons/fa';
+import { toast, Toaster } from 'react-hot-toast'; 
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -16,23 +16,57 @@ function LoginForm() {
   useEffect(() => {
     const error = searchParams.get('error');
     if (error === 'required') {
-      setErrorMsg('Please sign in to access that page.');
+      toast.error('Please sign in to access that page.', {
+        id: 'auth-error',
+        duration: 4000,
+      });
     }
   }, [searchParams]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 800)); // Fake delay for UX
+
+    const loadingToast = toast.loading('Verifying credentials...');
+
+    await new Promise(r => setTimeout(r, 800)); 
 
     if (email === 'admin@test.com' && password === '123456') {
       Cookies.set('mock_token', 'true', { expires: 1 });
+      
+      toast.success('Access Granted. Redirecting...', { 
+        id: loadingToast,
+        duration: 2000 
+      });
+      
       router.push('/add-item');
       router.refresh(); 
     } else {
-      setErrorMsg('Invalid Credentials');
+      toast.error('Invalid Credentials', { 
+        id: loadingToast 
+      });
       setLoading(false);
     }
+  };
+
+  const handleDemoLogin = async () => {
+    setEmail('admin@test.com');
+    setPassword('123456');
+    setLoading(true);
+
+    const loadingToast = toast.loading('Demo Access: Logging in...');
+
+    await new Promise(r => setTimeout(r, 800)); 
+
+    Cookies.set('mock_token', 'true', { expires: 1 });
+      
+    toast.success('Welcome, Admin!', { 
+      id: loadingToast,
+      duration: 2000 
+    });
+      
+    router.push('/');
+    router.refresh(); 
   };
 
   return (
@@ -50,17 +84,6 @@ function LoginForm() {
           <p className="text-sm opacity-60 mt-2">Enter your credentials to access the admin panel.</p>
         </div>
         
-        {errorMsg && (
-          <motion.div 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            className="alert alert-error text-sm py-3 mb-4 shadow-lg"
-          >
-            <FaExclamationCircle />
-            <span>{errorMsg}</span>
-          </motion.div>
-        )}
-
         <div className="form-control mb-4">
           <label className="label">
             <span className="label-text font-bold">Email</span>
@@ -71,6 +94,7 @@ function LoginForm() {
               type="email" 
               placeholder="admin@test.com" 
               className="input input-bordered w-full pl-12 focus:input-primary transition-all bg-base-200/50" 
+              value={email} // Controlled input needed for demo button to show value
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -86,6 +110,7 @@ function LoginForm() {
               type="password" 
               placeholder="••••••" 
               className="input input-bordered w-full pl-12 focus:input-primary transition-all bg-base-200/50" 
+              value={password} // Controlled input
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
@@ -101,6 +126,15 @@ function LoginForm() {
           )}
         </button>
 
+        <button 
+          type="button"
+          onClick={handleDemoLogin}
+          className="btn btn-outline btn-neutral w-full mt-3 group"
+          disabled={loading}
+        >
+          <FaUserSecret className="text-lg" /> Demo Login
+        </button>
+
         <div className="divider text-xs opacity-50 mt-6">Secure Access</div>
       </form>
     </motion.div>
@@ -110,7 +144,30 @@ function LoginForm() {
 export default function Login() {
   return (
     <div className="min-h-screen relative flex justify-center items-center overflow-hidden bg-base-300">
-      {/* Dynamic Background */}
+      
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: '#1f2937', 
+            color: '#fff',
+            border: '1px solid rgba(255,255,255,0.1)',
+          },
+          success: {
+            iconTheme: {
+              primary: '#4ade80',
+              secondary: '#1f2937',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444', 
+              secondary: '#1f2937',
+            },
+          },
+        }}
+      />
+
       <div className="absolute top-0 left-0 w-full h-full">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[100px] animate-pulse"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-secondary/20 rounded-full blur-[100px] animate-pulse" style={{animationDelay: '1s'}}></div>

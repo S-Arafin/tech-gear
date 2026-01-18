@@ -3,21 +3,24 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import { useCart } from '@/context/CartContext'; // Import Context
+import { useCart } from '@/context/CartContext';
 import { 
   FaMicrochip, FaBars, FaSun, FaMoon, 
-  FaBoxOpen, FaPlusCircle, FaUser, FaCog, FaSignOutAlt, FaShoppingCart 
+  FaPlusCircle, FaSignOutAlt, FaShoppingCart 
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const router = useRouter();
-  const { toggleCart, cartCount } = useCart(); // Use Context
+  const { toggleCart, cartCount } = useCart(); 
   const [isAuth, setIsAuth] = useState(false);
   const [theme, setTheme] = useState('tech-gear');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (Cookies.get('mock_token')) setIsAuth(true);
+    
     const storedTheme = localStorage.getItem('theme') || 'tech-gear';
     setTheme(storedTheme);
     document.querySelector('html').setAttribute('data-theme', storedTheme);
@@ -43,9 +46,8 @@ export default function Navbar() {
   ];
 
   return (
-    <div className="sticky top-0 z-40 w-full navbar bg-base-100/80 backdrop-blur-md border-b border-base-content/10 shadow-sm">
+    <div className="sticky top-0 z-40 w-full navbar bg-base-100/80 backdrop-blur-md border-b border-base-content/10 shadow-sm transition-colors duration-300">
       
-      {/* --- LEFT --- */}
       <div className="navbar-start">
         <div className="dropdown lg:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -63,7 +65,6 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* --- CENTER --- */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-2 font-medium">
           {publicLinks.map((link) => (
@@ -73,17 +74,20 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {/* --- RIGHT --- */}
       <div className="navbar-end gap-3">
         
-        {/* THEME TOGGLE */}
-        <label className="swap swap-rotate btn btn-ghost btn-circle btn-sm">
-          <input type="checkbox" onChange={toggleTheme} checked={theme === 'light'} />
-          <FaSun className="swap-on text-yellow-500 w-5 h-5" />
-          <FaMoon className="swap-off text-primary w-5 h-5" />
-        </label>
+        {mounted && (
+            <label className="swap swap-rotate btn btn-ghost btn-circle btn-sm">
+                <input 
+                    type="checkbox" 
+                    onChange={toggleTheme} 
+                    checked={theme === 'light'} 
+                />
+                <FaSun className="swap-on text-yellow-500 w-5 h-5" />
+                <FaMoon className="swap-off text-primary w-5 h-5" />
+            </label>
+        )}
 
-        {/* CART ICON (New) */}
         <button className="btn btn-ghost btn-circle" onClick={toggleCart}>
           <div className="indicator">
             <FaShoppingCart className="h-5 w-5" />
@@ -102,10 +106,9 @@ export default function Navbar() {
           </div>
         </button>
 
-        {/* AUTH */}
         {isAuth ? (
           <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar ring ring-primary ring-offset-2">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar ring ring-primary ring-offset-2 ring-offset-base-100">
               <div className="w-10 rounded-full">
                 <img alt="Avatar" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
               </div>

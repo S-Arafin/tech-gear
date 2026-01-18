@@ -4,12 +4,13 @@
 @plugin "daisyui/theme" {
   name: "tech-gear";
   default: true;
-  --color-primary: oklch(55% 0.2 260);
-  --color-secondary: oklch(65% 0.18 180);
-  --color-accent: oklch(70% 0.19 40);
-  --color-base-100: oklch(100% 0 0);
-  --color-base-200: oklch(96% 0.01 260);
-  --color-base-content: oklch(20% 0.05 260);
+  --color-base-100: oklch(20% 0.02 260);
+  --color-base-200: oklch(17% 0.02 260);
+  --color-base-300: oklch(14% 0.02 260);
+  --color-base-content: oklch(98% 0 0);
+  --color-primary: oklch(60% 0.2 260);
+  --color-secondary: oklch(70% 0.18 180);
+  --color-accent: oklch(75% 0.19 40);
   --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
   --radius-box: 1rem;
@@ -17,6 +18,10 @@
 
 @plugin "daisyui/theme" {
   name: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(96% 0.01 260);
+  --color-base-300: oklch(92% 0.01 260);
+  --color-base-content: oklch(20% 0.05 260);
   --color-primary: oklch(45% 0.2 270);
   --color-secondary: oklch(60% 0.2 150);
 }

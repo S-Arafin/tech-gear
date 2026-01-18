@@ -11,7 +11,6 @@ export default function CartSidebar() {
     <AnimatePresence>
       {isCartOpen && (
         <>
-          {/* Backdrop */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -20,7 +19,6 @@ export default function CartSidebar() {
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
           />
 
-          {/* Sidebar */}
           <motion.div 
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -28,7 +26,6 @@ export default function CartSidebar() {
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed top-0 right-0 h-full w-full max-w-md bg-base-100 z-[70] shadow-2xl flex flex-col border-l border-base-content/10"
           >
-            {/* Header */}
             <div className="p-5 border-b border-base-content/10 flex justify-between items-center bg-base-200/50">
               <h2 className="text-xl font-bold flex items-center gap-2">
                 <FaShoppingBag className="text-primary" /> Your Cart
@@ -53,7 +50,11 @@ export default function CartSidebar() {
                     key={item._id} 
                     className="flex gap-4 bg-base-100 border border-base-content/10 p-3 rounded-xl shadow-sm hover:shadow-md transition-shadow"
                   >
-                    <img src={item.imageUrl} className="w-20 h-20 object-contain bg-white rounded-lg p-2" alt={item.name} />
+                    <img 
+                        src={item.imageUrl || item.image || "https://placehold.co/400"} 
+                        className="w-20 h-20 object-contain bg-white rounded-lg p-2" 
+                        alt={item.name} 
+                    />
                     
                     <div className="flex-1 flex flex-col justify-between">
                       <div className="flex justify-between items-start">
@@ -90,7 +91,6 @@ export default function CartSidebar() {
               )}
             </div>
 
-            {/* Footer */}
             <div className="p-6 bg-base-100 border-t border-base-content/10 space-y-4">
                 <div className="flex justify-between text-lg font-bold">
                     <span>Subtotal</span>

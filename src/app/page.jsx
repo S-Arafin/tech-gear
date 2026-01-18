@@ -3,13 +3,27 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaRocket, FaShieldAlt, FaTruck, FaStar, FaQuoteRight } from 'react-icons/fa';
+import { toast, Toaster } from 'react-hot-toast';
 import HeroSection from '@/components/HeroSection';
 import FeaturedSection from '@/components/FeaturedSection'; 
 import Footer from '@/components/Footer';
 
 export default function Home() {
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    toast.success("Subscribed successfully!", {
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    });
+    e.target.reset();
+  };
+
   return (
     <main className="min-h-screen bg-base-100 overflow-x-hidden">
+      <Toaster position="bottom-center" />
       
       <HeroSection />
 
@@ -119,7 +133,7 @@ export default function Home() {
           <div className="bg-base-100 rounded-3xl p-10 shadow-xl border border-base-content/5">
             <h2 className="text-3xl font-bold mb-2">Subscribe to our Newsletter</h2>
             <p className="text-base-content/70 mb-8">Get exclusive deals, early access to drops, and tech news.</p>
-            <form className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+            <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
               <input type="email" placeholder="Enter your email" className="input input-bordered flex-1" required />
               <button className="btn btn-primary">Subscribe</button>
             </form>

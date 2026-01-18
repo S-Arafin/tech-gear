@@ -56,7 +56,7 @@ export default function AddItem() {
                   <input name="name" type="text" placeholder="e.g. RTX 4090" className="input input-bordered" required onChange={handleChange} />
                 </div>
                 <div className="form-control">
-                  <label className="label font-bold">Price ($)</label>
+                  <label className="label font-bold">Price ($)</label><br/>
                   <input name="price" type="number" step="0.01" placeholder="99.99" className="input input-bordered" required onChange={handleChange} />
                 </div>
               </div>
@@ -64,7 +64,7 @@ export default function AddItem() {
               {/* Row 2: Category & Brand */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="form-control">
-                    <label className="label font-bold">Category</label>
+                    <label className="label font-bold">Category</label><br/>
                     <select name="category" className="select select-bordered" onChange={handleChange} value={form.category}>
                         <option>Gaming</option>
                         <option>Workstation</option>
@@ -73,15 +73,13 @@ export default function AddItem() {
                     </select>
                 </div>
                 <div className="form-control">
-                    <label className="label font-bold">Brand</label>
+                    <label className="label font-bold">Brand</label><br/>
                     <input name="brand" type="text" placeholder="e.g. Asus" className="input input-bordered" onChange={handleChange} />
                 </div>
               </div>
-
-               {/* Row 3: Stock & Image */}
                <div className="grid md:grid-cols-2 gap-4">
                 <div className="form-control">
-                    <label className="label font-bold">Stock Quantity</label>
+                    <label className="label font-bold">Stock Quantity</label><br/>
                     <input name="stock" type="number" placeholder="10" className="input input-bordered" onChange={handleChange} />
                 </div>
                 <div className="form-control">
@@ -91,12 +89,12 @@ export default function AddItem() {
               </div>
 
               <div className="form-control">
-                 <label className="label font-bold">Features (One per line)</label>
+                 <label className="label font-bold">Features (One per line)</label><br/>
                  <textarea name="features" className="textarea textarea-bordered h-24" placeholder="- RGB Lighting&#10;- Mechanical Switches" onChange={handleChange}></textarea>
               </div>
 
               <div className="form-control">
-                 <label className="label font-bold">Description</label>
+                 <label className="label font-bold">Description</label><br/>
                  <textarea name="description" className="textarea textarea-bordered h-24" placeholder="Detailed info..." required onChange={handleChange}></textarea>
               </div>
 

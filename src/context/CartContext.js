@@ -8,7 +8,6 @@ export function CartProvider({ children }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Prevent Hydration Error
   useEffect(() => {
     setIsMounted(true);
     const saved = localStorage.getItem('cart');
@@ -53,7 +52,6 @@ export function CartProvider({ children }) {
   const clearCart = () => setCart([]);
   const toggleCart = () => setIsCartOpen(!isCartOpen);
   
-  // Derived state
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0);
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
 
